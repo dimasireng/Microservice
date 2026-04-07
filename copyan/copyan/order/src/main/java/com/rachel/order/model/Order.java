@@ -1,4 +1,4 @@
-package com.dimas.order.model;
+package com.rachel.order.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

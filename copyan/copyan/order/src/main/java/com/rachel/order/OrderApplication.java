@@ -1,4 +1,4 @@
-package com.dimas.order;
+package com.rachel.order;
 
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -17,12 +17,12 @@ public class OrderApplication {
 	}
 
 	@Bean
-	public RestTemplate restTemplate(){
+	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
 
 	@Bean
-	public MessageConverter messageConverter(){
+	public MessageConverter messageConverter() {
 		return new Jackson2JsonMessageConverter();
 	}
 

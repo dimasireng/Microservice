@@ -1,4 +1,4 @@
-package com.dimas.order.service;
+package com.rachel.order.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,14 +9,16 @@ import java.util.Objects;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.dimas.order.model.Order;
-import com.dimas.order.repository.OrderRepository;
-import com.dimas.order.vo.Produk;
-import com.dimas.order.vo.ResponseTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import com.rachel.order.model.Order;
+import com.rachel.order.repository.OrderRepository;
+import com.rachel.order.vo.Produk;
+import com.rachel.order.vo.ResponseTemplate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.transaction.Transactional;
 
@@ -31,7 +33,7 @@ public class OrderService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<Order> getAll(){
+    public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
 
@@ -43,25 +45,22 @@ public class OrderService {
     public Order createOrder(Order order) {
         order.setTanggal(LocalDateTime.now().format(formatter));
         Order savedOrder = orderRepository.save(order);
-        System.out.println("ID Dikirim: " + savedOrder);
+        System.out.println("ID dikirim: " + savedOrder.getId());
         rabbitTemplate.convertAndSend(
-            "",
-            "order.notification.queue",
-            savedOrder);
-            
-        return savedOrder;
+                "",
+                "order.notification.queue",
+                savedOrder);
 
+        return savedOrder;
     }
 
     @Transactional
-    public void update(Long orderId, Integer jumlah, String tanggal, String status) {
-        // Auto generated method s
-        Order order = orderRepository.findById(orderId).orElseThrow(()
-                -> new IllegalStateException("Order tidak ada"));
+    public void update(Long id, Integer jumlah, String tanggal, String status) {
+        Order order = orderRepository.findById(id).orElseThrow(() -> new IllegalStateException("Order tidak ada"));
         if (jumlah != null) {
             order.setJumlah(jumlah);
-        } if (tanggal != null && tanggal.length() > 0
-                && !Objects.equals(order.getTanggal(), tanggal)) {
+        }
+        if (tanggal != null && tanggal.length() > 0 && !Objects.equals(order.getTanggal(), tanggal)) {
             order.setTanggal(tanggal);
         }
     }
@@ -70,20 +69,21 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public List<ResponseTemplate> getOrderWithProductById(Long id){
-        List<ResponseTemplate> resoponseList = new ArrayList<>();
+    public List<ResponseTemplate> getOrderWithProdukById(Long id) {
+        List<ResponseTemplate> responseList = new ArrayList<>();
         Order order = getOrderById(id);
         ServiceInstance serviceInstance = discoveryClient.getInstances("PRODUK").get(0);
-        Produk produk = restTemplate.getForObject(serviceInstance.getUri() + "/api/produk/"
-                + order.getId_produk(), Produk.class);
+        Produk produk = restTemplate.getForObject(serviceInstance.getUri() + "/api/produk/" + order.getId_produk(),
+                Produk.class);
         ResponseTemplate vo = new ResponseTemplate();
         vo.setOrder(order);
         vo.setProduk(produk);
-        resoponseList.add(vo);
-        return resoponseList;
+        responseList.add(vo);
+        return responseList;
     }
 
-    public void deleteOrder(long id){
+    public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
+
 }

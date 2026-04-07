@@ -8,7 +8,7 @@
 		<version>4.0.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.dimas</groupId>
+	<groupId>com.rachel</groupId>
 	<artifactId>order</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>order</name>
@@ -74,9 +74,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-amqp</artifactId>
+</dependency>
 	</dependencies>
 
 	<dependencyManagement>
