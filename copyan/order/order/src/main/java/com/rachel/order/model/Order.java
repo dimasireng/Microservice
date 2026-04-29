@@ -1,4 +1,4 @@
-package com.dimas.order.model;
+package com.rachel.order.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,5 +20,4 @@ public class Order {
     private String email;
     private String tanggal;
     private String username;
-    private String role;
 }

@@ -1,4 +1,4 @@
-package com.digidaw.notification_service.model;
+package com.rachel.notification.model;
 
 public class Order {
 
@@ -76,7 +76,7 @@ public class Order {
         this.tanggal = tanggal;
     }
 
-     public String getUsername() {
+    public String getUsername() {
         return username;
     }
 

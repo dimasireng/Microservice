@@ -1,4 +1,4 @@
-package com.dimas.order.controller;
+package com.rachel.order.controller;
 
 import java.util.List;
 
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dimas.order.model.Order;
-import com.dimas.order.service.OrderService;
+import com.rachel.order.model.Order;
+import com.rachel.order.service.OrderService;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.dimas.order.vo.ResponseTemplate;
+import com.rachel.order.vo.ResponseTemplate;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -44,10 +44,7 @@ public class OrderController {
             jakarta.servlet.http.HttpServletRequest request) {
 
         String username = (String) request.getAttribute("username");
-        String email = (String) request.getAttribute("email");
-        String role = (String) request.getAttribute("role");
-
-        return orderService.createOrder(order, username, email, role);
+        return orderService.createOrder(order, username);
     }
 
     @GetMapping(path = "/produk/{id}")

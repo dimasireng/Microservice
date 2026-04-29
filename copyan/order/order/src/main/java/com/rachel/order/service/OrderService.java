@@ -1,4 +1,4 @@
-package com.dimas.order.service;
+package com.rachel.order.service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -9,14 +9,16 @@ import java.util.Objects;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.dimas.order.model.Order;
-import com.dimas.order.repository.OrderRepository;
-import com.dimas.order.vo.Produk;
-import com.dimas.order.vo.ResponseTemplate;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import com.rachel.order.model.Order;
+import com.rachel.order.repository.OrderRepository;
+import com.rachel.order.vo.Produk;
+import com.rachel.order.vo.ResponseTemplate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.transaction.Transactional;
 
@@ -40,17 +42,14 @@ public class OrderService {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    public Order createOrder(Order order, String username, String email, String role) {
+    public Order createOrder(Order order, String username) {
         order.setTanggal(LocalDateTime.now().format(formatter));
         order.setUsername(username);
-        order.setEmail(email);
-        order.setRole(role);
 
         Order savedOrder = orderRepository.save(order);
 
         System.out.println("ID dikirim: " + savedOrder.getId());
         System.out.println("Username dikirim: " + savedOrder.getUsername());
-        System.out.println("Role: " + savedOrder.getRole());
 
         rabbitTemplate.convertAndSend(
                 "",

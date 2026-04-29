@@ -12,12 +12,12 @@ public class OrderListener {
     @Autowired
     private NotificationService notificationService;
 
-    @RabbitListener(queues = "order.notification.queue")
+    @RabbitListener(queues = "order.notification.queue")     //rabbitlistener menerima pesan dari queue 
     public void receiveOrder(Order order) {
         System.out.println("Order Baru Diterima");
         System.out.println("ID Order: " + order.getId());
-        System.out.println("Email: " + order.getEmail());
-        System.out.println("DATA DARI QUEUE: " + order);
-        notificationService.sendEmail(order);
+        System.out.println("Email: " + order.getEmail());       // terima data order
+        System.out.println("Username: " + order.getUsername());
+        notificationService.sendEmail(order);                   // ngirim email
     }
 }
